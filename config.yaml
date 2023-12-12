@@ -1,0 +1,3 @@
+mongo: 
+  connectionString: mongodb+srv://usr:pwd@cluster/
+  database: education
