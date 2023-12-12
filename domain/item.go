@@ -8,6 +8,6 @@ type Item struct {
 }
 
 type ItemsRepository interface {
-	GetItems(ctx context.Context) ([]Item, error)
+	GetAllItems(ctx context.Context) ([]Item, error)
 	GetItemByName(ctx context.Context, name string) (Item, error)
 }
