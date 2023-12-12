@@ -72,20 +72,10 @@ In order to accomplish this, the API must fulfill the following use cases:
 2. No authentication is needed (it's a zombie apocalypse, no one will try to hack a system while running from a horde of zombies);
 3. We still care about proper programming and architecture techniques, you must showcase that you're worthy of surving the zombie apocalypse through the sheer strength of your skills; 
 4. You must write at least some automated tests;
-4. Aimple is better. Do not over-engineer or over-architect your solution. We don't need to see the *best* or the *most complete* solution, but rather a production-ready solution that you would be able to deploy to a cloud provider;
-4. Don't forget to make at least a minimal documentation of the API endpoints and how to use them;
-5. From the problem description above you can either do a very bare bones solution or add optional features that are not described. Use your time wisely; the absolute optimal solution might take too long to be effective in the apocalypse, so you must come up with the best possible solution that will hold up within the least ammount of time and still be able to showcase your skills in order to prove your worth.
-7. **Optional: Deploy your solution to Cloud Run and connect with Cloud SQL db (you get 300$ credit when you signup).**
-
-## Q&A
-
-> Where should I send back the result when I'm done?
-
-Create a public git repository on Gitlab/Github and send us an email with the link to j.acosta@neuronsinc.com. Please make sure to create a proper Readme file with the link to the Cloud Run instance so we can test your solution out.
-
-> What if I have a question?
-
-You can always reach out to j.acosta@neuronsinc.com if you have questions or concerns about this test.
+5. Aimple is better. Do not over-engineer or over-architect your solution. We don't need to see the *best* or the *most complete* solution, but rather a production-ready solution that you would be able to deploy to a cloud provider;
+6. Don't forget to make at least a minimal documentation of the API endpoints and how to use them;
+7. From the problem description above you can either do a very bare bones solution or add optional features that are not described. Use your time wisely; the absolute optimal solution might take too long to be effective in the apocalypse, so you must come up with the best possible solution that will hold up within the least ammount of time and still be able to showcase your skills in order to prove your worth.
+8. **Optional: Deploy your solution to Cloud Run and connect with Cloud SQL db (you get 300$ credit when you signup).**
 
 **Original test written by [Akita](https://t.co/W47ODZTOAc)**
 **Adapter from [nayra0](https://github.com/nayra0/backend-test/blob/master/README.md)**
