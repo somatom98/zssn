@@ -22,8 +22,9 @@ func NewChiController(survivorService domain.SurvivorService) *SurvivorChiContro
 func (c *SurvivorChiController) GetRouter() http.Handler {
 	router := chi.NewRouter()
 	router.Get("/", c.getAllSurvivorsHandler)
-	router.Get("/{sid}", c.getSurvivorHandler)
 	router.Put("/", c.addSurvivorHandler)
+	router.Get("/{sid}", c.getSurvivorHandler)
+	router.Get("/{sid}/location", c.updateSurvivorLocationHandler)
 	return router
 }
 
@@ -73,4 +74,24 @@ func (c *SurvivorChiController) addSurvivorHandler(w http.ResponseWriter, r *htt
 	}
 
 	render.JSON(w, r, sid)
+}
+
+func (c *SurvivorChiController) updateSurvivorLocationHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	sid := chi.URLParam(r, "sid")
+	var location domain.Location
+
+	err := json.NewDecoder(r.Body).Decode(&location)
+	if err != nil {
+		rErr := domain.NewError(err)
+		render.Render(w, r, rErr)
+		return
+	}
+
+	err = c.survivorService.UpdateSurvivorLocation(ctx, sid, location)
+	if err != nil {
+		rErr := domain.NewError(err)
+		render.Render(w, r, rErr)
+		return
+	}
 }
