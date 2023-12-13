@@ -39,6 +39,9 @@ type SurvivorRepository interface {
 }
 
 type SurvivorService interface {
+	GetAllSurvivors(ctx context.Context) ([]Survivor, error)
+	GetSurvivor(ctx context.Context, sid string) (Survivor, error)
+	AddSurvivor(ctx context.Context, survivor Survivor) error
 	UpdateSurvivorLocation(ctx context.Context, sid string, location Location) error
 	ReportSurvivorStatus(ctx context.Context, sid string, status SurvivorStatus) error
 	AddItem(ctx context.Context, sid string, item string, quantity int64) error
