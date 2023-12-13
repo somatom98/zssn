@@ -5,6 +5,7 @@ go 1.20
 require go.mongodb.org/mongo-driver v1.13.1
 
 require (
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	golang.org/x/sys v0.12.0 // indirect
@@ -12,6 +13,7 @@ require (
 
 require (
 	github.com/go-chi/chi v1.5.5
+	github.com/go-chi/render v1.0.3
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
