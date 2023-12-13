@@ -29,6 +29,7 @@ const (
 
 type SurvivorRepository interface {
 	GetAllSurvivors(ctx context.Context) ([]Survivor, error)
+	GetSurvivor(ctx context.Context, sid string) (Survivor, error)
 	AddSurvivor(ctx context.Context, survivor Survivor) error
 	UpdateLocation(ctx context.Context, sid string, location Location) error
 	UpdateSurvivorStatus(ctx context.Context, sid string, status SurvivorStatus) error
