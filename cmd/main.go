@@ -9,6 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/somatom98/zssn/config"
 	"github.com/somatom98/zssn/domain"
+	"github.com/somatom98/zssn/inventory"
 	"github.com/somatom98/zssn/items"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -18,6 +19,7 @@ var router *chi.Mux
 var mongoDb *mongo.Database
 
 var itemsRepository domain.ItemsRepository
+var inventoryRepository domain.InventoryRepository
 
 func init() {
 	conf, err := config.GetFromYaml()
@@ -40,6 +42,7 @@ func init() {
 
 func main() {
 	itemsRepository = items.NewMockRepository()
+	inventoryRepository = inventory.NewMockRepository()
 
 	itemsController := items.NewChiController(itemsRepository)
 

@@ -34,5 +34,6 @@ func (e *Error) Error() string {
 }
 
 const (
-	ErrCodeNotFound string = "err_not_found"
+	ErrCodeNotFound   string = "err_not_found"
+	ErrCodeValidation string = "err_validation"
 )
