@@ -7,6 +7,7 @@ type Survivor struct {
 	Name      string         `json:"name"`
 	Age       int            `json:"age"`
 	Gender    SurvivorGender `json:"gender"`
+	Status    SurvivorStatus `json:"status"`
 	Location  Location       `json:"location"`
 	Inventory Inventory      `json:"inventory"`
 }
