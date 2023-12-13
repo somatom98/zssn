@@ -26,7 +26,7 @@ func (s *SurvivorService) GetSurvivor(ctx context.Context, sid string) (domain.S
 	return s.survivorRepository.GetSurvivor(ctx, sid)
 }
 
-func (s *SurvivorService) AddSurvivor(ctx context.Context, survivor domain.Survivor) error {
+func (s *SurvivorService) AddSurvivor(ctx context.Context, survivor domain.Survivor) (string, error) {
 	return s.survivorRepository.AddSurvivor(ctx, survivor)
 }
 

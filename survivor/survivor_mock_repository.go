@@ -47,16 +47,16 @@ func (r *SurvivorMockRepository) GetSurvivor(ctx context.Context, sid string) (d
 	return domain.Survivor{}, errors.New(domain.ErrCodeNotFound)
 }
 
-func (r *SurvivorMockRepository) AddSurvivor(ctx context.Context, survivor domain.Survivor) error {
+func (r *SurvivorMockRepository) AddSurvivor(ctx context.Context, survivor domain.Survivor) (string, error) {
 	for _, s := range r.survivors {
 		if s.ID == survivor.ID {
-			return errors.New(domain.ErrCodeDuplicate)
+			return "", errors.New(domain.ErrCodeDuplicate)
 		}
 	}
 
 	r.survivors = append(r.survivors, survivor)
 
-	return nil
+	return survivor.ID, nil
 }
 
 func (r *SurvivorMockRepository) UpdateSurvivorLocation(ctx context.Context, sid string, location domain.Location) error {
