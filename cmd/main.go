@@ -11,6 +11,7 @@ import (
 	"github.com/somatom98/zssn/domain"
 	"github.com/somatom98/zssn/inventory"
 	"github.com/somatom98/zssn/items"
+	"github.com/somatom98/zssn/survivor"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -20,6 +21,9 @@ var mongoDb *mongo.Database
 
 var itemsRepository domain.ItemsRepository
 var inventoryRepository domain.InventoryRepository
+var survivorRepository domain.SurvivorRepository
+
+var survivorService domain.SurvivorService
 
 func init() {
 	conf, err := config.GetFromYaml()
@@ -43,14 +47,19 @@ func init() {
 func main() {
 	itemsRepository = items.NewMockRepository()
 	inventoryRepository = inventory.NewMockRepository()
+	survivorRepository = survivor.NewMockRepository()
+
+	survivorService = survivor.NewSurvivorService(survivorRepository, inventoryRepository)
 
 	itemsController := items.NewChiController(itemsRepository)
+	survivorController := survivor.NewChiController(survivorService)
 
 	router = chi.NewRouter()
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Welcome to Zombie Survival Social Network!"))
 	})
 	router.Mount("/items", itemsController.GetRouter())
+	router.Mount("/survivors", survivorController.GetRouter())
 
 	log.Info().
 		Msg("HTTP Server starting")
