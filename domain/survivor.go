@@ -3,13 +3,14 @@ package domain
 import "context"
 
 type Survivor struct {
-	ID        string         `json:"id"`
-	Name      string         `json:"name"`
-	Age       int            `json:"age"`
-	Gender    SurvivorGender `json:"gender"`
-	Status    SurvivorStatus `json:"status"`
-	Location  Location       `json:"location"`
-	Inventory Inventory      `json:"inventory"`
+	ID            string                 `json:"id"`
+	Name          string                 `json:"name"`
+	Age           int                    `json:"age"`
+	Gender        SurvivorGender         `json:"gender"`
+	Status        SurvivorStatus         `json:"status"`
+	StatusReports map[SurvivorStatus]int `json:"status_reports"`
+	Location      Location               `json:"location"`
+	Inventory     Inventory              `json:"inventory"`
 }
 
 type SurvivorGender string
@@ -34,6 +35,7 @@ type SurvivorRepository interface {
 	AddSurvivor(ctx context.Context, survivor Survivor) error
 	UpdateSurvivorLocation(ctx context.Context, sid string, location Location) error
 	UpdateSurvivorStatus(ctx context.Context, sid string, status SurvivorStatus) error
+	UpdateSurvivorStatusReports(ctx context.Context, sid string, statusReports map[SurvivorStatus]int) error
 }
 
 type SurvivorService interface {
