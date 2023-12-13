@@ -39,4 +39,15 @@ func (c *ItemsChiController) getAllItemsHandler(w http.ResponseWriter, r *http.R
 }
 
 func (c *ItemsChiController) getItemByNameHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	name := chi.URLParam(r, "name")
+
+	items, err := c.itemsRepository.GetItemByName(ctx, name)
+	if err != nil {
+		rErr := domain.NewError(err)
+		render.Render(w, r, rErr)
+		return
+	}
+
+	render.JSON(w, r, items)
 }
