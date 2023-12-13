@@ -8,12 +8,16 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/rs/zerolog/log"
 	"github.com/somatom98/zssn/config"
+	"github.com/somatom98/zssn/domain"
+	"github.com/somatom98/zssn/items"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var conf config.Config
 var router *chi.Mux
 var mongoDb *mongo.Database
+
+var itemsRepository domain.ItemsRepository
 
 func init() {
 	conf, err := config.GetFromYaml()
@@ -35,10 +39,15 @@ func init() {
 }
 
 func main() {
+	itemsRepository = items.NewMockRepository()
+
+	itemsController := items.NewChiController(itemsRepository)
+
 	router = chi.NewRouter()
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Welcome to Zombie Survival Social Network!"))
 	})
+	router.Mount("/items", itemsController.GetRouter())
 
 	log.Info().
 		Msg("HTTP Server starting")
