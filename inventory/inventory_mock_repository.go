@@ -47,7 +47,12 @@ func NewMockRepository() *InventoryFakeRepository {
 					"water":      4,
 					"food":       25,
 					"medication": 13,
-					"ammonition": 299,
+					"ammunition": 299,
+				},
+			},
+			"657b4ea4d54e4b7c3870f8c7": {
+				Items: map[string]int64{
+					"ammunition": 57,
 				},
 			},
 		},
