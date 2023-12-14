@@ -34,7 +34,7 @@ func (s *SurvivorService) UpdateSurvivorLocation(ctx context.Context, sid string
 	return s.survivorRepository.UpdateSurvivorLocation(ctx, sid, location)
 }
 
-func (s *SurvivorService) ReportSurvivorStatus(ctx context.Context, sid string, status domain.SurvivorStatus) error {
+func (s *SurvivorService) ReportSurvivorStatus(ctx context.Context, sid string, statusReport domain.SurvivorStatusReport) error {
 	survivor, err := s.survivorRepository.GetSurvivor(ctx, sid)
 	if err != nil {
 		return err
@@ -42,19 +42,34 @@ func (s *SurvivorService) ReportSurvivorStatus(ctx context.Context, sid string, 
 
 	reports := survivor.StatusReports
 	if reports == nil {
-		reports = map[domain.SurvivorStatus]int{}
+		reports = []domain.SurvivorStatusReport{}
 	}
 
-	count := reports[status] + 1
-	reports[status] = count
+	count := 0
+	found := false
+	for i, report := range reports {
+		if report.SID == statusReport.SID {
+			reports[i].Status = statusReport.Status
+			found = true
+		}
+
+		if reports[i].Status == statusReport.Status {
+			count++
+		}
+	}
+
+	if !found {
+		reports = append(reports, statusReport)
+		count++
+	}
 
 	if count >= 3 { // TODO use config
-		err = s.survivorRepository.UpdateSurvivorStatus(ctx, sid, status)
+		err = s.survivorRepository.UpdateSurvivorStatus(ctx, sid, statusReport.Status)
 		if err != nil {
 			return err
 		}
 
-		reports = map[domain.SurvivorStatus]int{}
+		reports = []domain.SurvivorStatusReport{}
 	}
 
 	err = s.survivorRepository.UpdateSurvivorStatusReports(ctx, sid, reports)
