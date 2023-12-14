@@ -14,6 +14,6 @@ func NewTradeService(itemsRepository domain.ItemsRepository, inventoryRepository
 	}
 }
 
-func (s *TradeService) Trade(offerA domain.TradeOffer, offerB domain.TradeOffer) error {
+func (s *TradeService) Trade(ctx context.Context, offerA domain.TradeOffer, offerB domain.TradeOffer) error {
 	return nil
 }
