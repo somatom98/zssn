@@ -137,5 +137,27 @@ func (r *SurvivorMongoRepository) UpdateSurvivorStatus(ctx context.Context, sid 
 }
 
 func (r *SurvivorMongoRepository) UpdateSurvivorStatusReports(ctx context.Context, sid string, statusReports []domain.SurvivorStatusReport) error {
-	return errors.New(domain.ErrCodeNotFound)
+	objectID, err := primitive.ObjectIDFromHex(sid)
+	if err != nil {
+		return errors.New(domain.ErrCodeParsing)
+	}
+
+	mongoStatusReports := []MongoSurvivorStatusReport{}
+	for _, report := range statusReports {
+		sid, err := primitive.ObjectIDFromHex(report.SID)
+		if err != nil {
+			return errors.New(domain.ErrCodeParsing)
+		}
+
+		mongoReport := MongoSurvivorStatusReport{
+			SID:    sid,
+			Status: report.Status,
+		}
+
+		mongoStatusReports = append(mongoStatusReports, mongoReport)
+	}
+	update := bson.M{"$set": bson.M{"status_reports": mongoStatusReports}}
+
+	_, err = r.collection.UpdateByID(ctx, objectID, update)
+	return err
 }
