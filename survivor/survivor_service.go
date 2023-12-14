@@ -19,11 +19,36 @@ func NewSurvivorService(survivorRepository domain.SurvivorRepository, inventoryR
 }
 
 func (s *SurvivorService) GetAllSurvivors(ctx context.Context) ([]domain.Survivor, error) {
-	return s.survivorRepository.GetAllSurvivors(ctx)
+	survivors, err := s.survivorRepository.GetAllSurvivors(ctx)
+	if err != nil {
+		return survivors, err
+	}
+
+	for i, survivor := range survivors {
+		inventory, err := s.inventoryRepository.GetSurvivorInventory(ctx, survivor.ID)
+		if err != nil {
+			return survivors, err
+		}
+
+		survivors[i].Inventory = inventory
+	}
+
+	return survivors, nil
 }
 
 func (s *SurvivorService) GetSurvivor(ctx context.Context, sid string) (domain.Survivor, error) {
-	return s.survivorRepository.GetSurvivor(ctx, sid)
+	survivor, err := s.survivorRepository.GetSurvivor(ctx, sid)
+	if err != nil {
+		return survivor, err
+	}
+
+	inventory, err := s.inventoryRepository.GetSurvivorInventory(ctx, sid)
+	if err != nil {
+		return survivor, err
+	}
+
+	survivor.Inventory = inventory
+	return survivor, nil
 }
 
 func (s *SurvivorService) AddSurvivor(ctx context.Context, survivor domain.Survivor) (string, error) {
