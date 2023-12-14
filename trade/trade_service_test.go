@@ -20,10 +20,10 @@ func TestTradeService_Trade(t *testing.T) {
 		offerB domain.TradeOffer
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		wantErr bool
+		name   string
+		fields fields
+		args   args
+		err    error
 	}{
 		{
 			name: "noitems_error",
@@ -42,7 +42,7 @@ func TestTradeService_Trade(t *testing.T) {
 				offerA: domain.TradeOffer{},
 				offerB: domain.TradeOffer{},
 			},
-			wantErr: true,
+			err: errors.New("error"),
 		},
 		{
 			name: "offeritem_notfound_error",
@@ -59,14 +59,14 @@ func TestTradeService_Trade(t *testing.T) {
 				},
 				offerB: domain.TradeOffer{},
 			},
-			wantErr: true,
+			err: errors.New(domain.ErrCodeValidation),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := NewTradeService(tt.fields.itemsRepository, tt.fields.inventoryRepository)
-			if err := s.Trade(tt.args.ctx, tt.args.offerA, tt.args.offerB); (err != nil) != tt.wantErr {
-				t.Errorf("TradeService.Trade() error = %v, wantErr %v", err, tt.wantErr)
+			if err := s.Trade(tt.args.ctx, tt.args.offerA, tt.args.offerB); (tt.err == nil && err != nil) || (tt.err != nil && err == nil) || (tt.err != nil && tt.err.Error() != err.Error()) {
+				t.Errorf("TradeService.Trade() error = %v, wantErr %v", err, tt.err)
 			}
 		})
 	}
