@@ -111,6 +111,29 @@ func TestTradeService_Trade(t *testing.T) {
 			},
 			err: errors.New("error"),
 		},
+		{
+			name: "items_insufficient_error",
+			fields: fields{
+				itemsRepository:     items.NewMockRepository(),
+				inventoryRepository: inventory.NewMockRepository(),
+			},
+			args: args{
+				ctx: context.Background(),
+				offerA: domain.TradeOffer{
+					SID: "survivor",
+					Items: map[string]int64{
+						"water": 1,
+					},
+				},
+				offerB: domain.TradeOffer{
+					SID: "survivor",
+					Items: map[string]int64{
+						"ammunition": 4,
+					},
+				},
+			},
+			err: errors.New(domain.ErrCodeValidation),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
