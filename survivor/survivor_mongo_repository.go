@@ -125,7 +125,15 @@ func (r *SurvivorMongoRepository) UpdateSurvivorLocation(ctx context.Context, si
 }
 
 func (r *SurvivorMongoRepository) UpdateSurvivorStatus(ctx context.Context, sid string, status domain.SurvivorStatus) error {
-	return errors.New(domain.ErrCodeNotFound)
+	objectID, err := primitive.ObjectIDFromHex(sid)
+	if err != nil {
+		return errors.New(domain.ErrCodeParsing)
+	}
+
+	update := bson.M{"$set": bson.M{"status": status}}
+
+	_, err = r.collection.UpdateByID(ctx, objectID, update)
+	return err
 }
 
 func (r *SurvivorMongoRepository) UpdateSurvivorStatusReports(ctx context.Context, sid string, statusReports []domain.SurvivorStatusReport) error {
