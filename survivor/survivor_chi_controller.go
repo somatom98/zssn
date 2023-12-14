@@ -26,8 +26,8 @@ func (c *SurvivorChiController) GetRouter() http.Handler {
 	router.Get("/", c.getAllSurvivorsHandler)
 	router.Put("/", c.addSurvivorHandler)
 	router.Get("/{sid}", c.getSurvivorHandler)
-	router.Patch("/{sid}", c.reportSurvivorStatusHandler)
-	router.Get("/{sid}/location", c.updateSurvivorLocationHandler)
+	router.Patch("/{sid}/status", c.reportSurvivorStatusHandler)
+	router.Patch("/{sid}/location", c.updateSurvivorLocationHandler)
 	router.Put("/{sid}/items/{name}", c.addSurvivorItemHandler)
 	router.Delete("/{sid}/items/{name}", c.removeSurvivorItemHandler)
 	return router
