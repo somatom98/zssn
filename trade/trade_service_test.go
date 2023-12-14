@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/somatom98/zssn/domain"
+	"github.com/somatom98/zssn/inventory"
 	"github.com/somatom98/zssn/items"
 )
 
@@ -82,6 +83,33 @@ func TestTradeService_Trade(t *testing.T) {
 				},
 			},
 			err: errors.New(domain.ErrCodeValidation),
+		},
+		{
+			name: "items_unavailable_error",
+			fields: fields{
+				itemsRepository: items.NewMockRepository(),
+				inventoryRepository: &inventory.InventoryMockRepository{
+					MockGetSurvivorInventory: func(sid string) (domain.Inventory, error) {
+						return domain.Inventory{}, errors.New("error")
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				offerA: domain.TradeOffer{
+					SID: "657b4ea4d54e4b7c3870f8c3",
+					Items: map[string]int64{
+						"water": 1,
+					},
+				},
+				offerB: domain.TradeOffer{
+					SID: "657b4ea4d54e4b7c3870f8c7",
+					Items: map[string]int64{
+						"ammunition": 4,
+					},
+				},
+			},
+			err: errors.New("error"),
 		},
 	}
 	for _, tt := range tests {
