@@ -66,16 +66,40 @@ In order to accomplish this, the API must fulfill the following use cases:
 
 ---------------------------------------
 
-## Notes
+## My solution
 
-1. Please use one of the following languages: Go or Python. You are free to use whatever framework you'd like.
-2. No authentication is needed (it's a zombie apocalypse, no one will try to hack a system while running from a horde of zombies);
-3. We still care about proper programming and architecture techniques, you must showcase that you're worthy of surving the zombie apocalypse through the sheer strength of your skills; 
-4. You must write at least some automated tests;
-5. Aimple is better. Do not over-engineer or over-architect your solution. We don't need to see the *best* or the *most complete* solution, but rather a production-ready solution that you would be able to deploy to a cloud provider;
-6. Don't forget to make at least a minimal documentation of the API endpoints and how to use them;
-7. From the problem description above you can either do a very bare bones solution or add optional features that are not described. Use your time wisely; the absolute optimal solution might take too long to be effective in the apocalypse, so you must come up with the best possible solution that will hold up within the least ammount of time and still be able to showcase your skills in order to prove your worth.
-8. **Optional: Deploy your solution to Cloud Run and connect with Cloud SQL db (you get 300$ credit when you signup).**
+### API
+
+A postman collection can be imported using the `ZSSN.postman_collection.json` file.
+
+- GET `/items`
+  - Returns all the available items
+- GET `/items/:name`
+  - Returns a specific item
+- GET `/survivors`
+  - Returns all the survivors
+- PUT `/survivors`
+  - Registers a new survivor
+- GET `/survivors/:sid`
+  - Returns a specific survivor
+- PATCH `/survivors/:sid/status`
+  - Reports a survivor status (healthy, infected, dead)
+- PATCH `/survivors/:sid/location`
+  - Updates a survivor location
+- PUT `/survivors/:sid/items/:name`
+  - Adds new items to a survivor inventory
+  - Query parameters: 
+    - quantity: int
+- DELETE `/survivors/:sid/items/:name`
+  - Removes an existing item to a survivor inventory
+  - Query parameters: 
+    - quantity: int
+
+Trades endpoint is missing, but all the logic can be seen on the service, which has also unit tests covering the 94.7% of the code.
+
+Report logic is missing
+
+
 
 **Original test written by [Akita](https://t.co/W47ODZTOAc)**
 **Adapter from [nayra0](https://github.com/nayra0/backend-test/blob/master/README.md)**

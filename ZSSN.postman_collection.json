@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "e189f306-fad6-44e4-bba9-005a0d5bb8db",
+		"name": "ZSSN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22689268"
+	},
+	"item": [
+		{
+			"name": "items",
+			"item": [
+				{
+					"name": "items/:name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/items/:name",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "water"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/items",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "survivors",
+			"item": [
+				{
+					"name": ":sid",
+					"item": [
+						{
+							"name": "items",
+							"item": [
+								{
+									"name": "items/:name",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/survivors/:sid/items/:name?quantity=7",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"survivors",
+												":sid",
+												"items",
+												":name"
+											],
+											"query": [
+												{
+													"key": "quantity",
+													"value": "7"
+												}
+											],
+											"variable": [
+												{
+													"key": "sid",
+													"value": "657b51a484a6d7d5c3f18058"
+												},
+												{
+													"key": "name",
+													"value": "water"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "items/:name",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/survivors/:sid/items/:name?quantity=1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"survivors",
+												":sid",
+												"items",
+												":name"
+											],
+											"query": [
+												{
+													"key": "quantity",
+													"value": "1"
+												}
+											],
+											"variable": [
+												{
+													"key": "sid",
+													"value": "657b51a484a6d7d5c3f18058"
+												},
+												{
+													"key": "name",
+													"value": "water"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": ":sid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/survivors/:sid",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"survivors",
+										":sid"
+									],
+									"variable": [
+										{
+											"key": "sid",
+											"value": "657b51a484a6d7d5c3f18058"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": ":sid/location",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"latitude\": 1,\n    \"longitude\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/survivors/:sid/location",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"survivors",
+										":sid",
+										"location"
+									],
+									"variable": [
+										{
+											"key": "sid",
+											"value": "657b51a484a6d7d5c3f18058"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": ":sid/status",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"sid\": \"s-2\",\n    \"status\": \"infected\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/survivors/:sid",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"survivors",
+										":sid"
+									],
+									"variable": [
+										{
+											"key": "sid",
+											"value": "survivor"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "survivors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/survivors",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"survivors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "survivors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/survivors",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"survivors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "survivors",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Tommaso\",\n    \"age\": 25,\n    \"gender\": \"male\",\n    \"status\": \"healthy\",\n    \"location\": {\n        \"latitude\": 13,\n        \"longitude\": 53\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/survivors",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"survivors"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
