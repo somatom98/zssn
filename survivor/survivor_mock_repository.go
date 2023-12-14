@@ -81,7 +81,7 @@ func (r *SurvivorMockRepository) UpdateSurvivorStatus(ctx context.Context, sid s
 	return errors.New(domain.ErrCodeNotFound)
 }
 
-func (r *SurvivorMockRepository) UpdateSurvivorStatusReports(ctx context.Context, sid string, statusReports map[domain.SurvivorStatus]int) error {
+func (r *SurvivorMockRepository) UpdateSurvivorStatusReports(ctx context.Context, sid string, statusReports []domain.SurvivorStatusReport) error {
 	for i, s := range r.survivors {
 		if s.ID == sid {
 			r.survivors[i].StatusReports = statusReports
