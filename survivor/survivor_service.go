@@ -48,7 +48,7 @@ func (s *SurvivorService) ReportSurvivorStatus(ctx context.Context, sid string, 
 	count := reports[status] + 1
 	reports[status] = count
 
-	if count > 3 { // TODO use config
+	if count >= 3 { // TODO use config
 		err = s.survivorRepository.UpdateSurvivorStatus(ctx, sid, status)
 		if err != nil {
 			return err
