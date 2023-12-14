@@ -109,7 +109,19 @@ func (r *SurvivorMongoRepository) AddSurvivor(ctx context.Context, survivor doma
 }
 
 func (r *SurvivorMongoRepository) UpdateSurvivorLocation(ctx context.Context, sid string, location domain.Location) error {
-	return errors.New(domain.ErrCodeNotFound)
+	objectID, err := primitive.ObjectIDFromHex(sid)
+	if err != nil {
+		return errors.New(domain.ErrCodeParsing)
+	}
+
+	mongoLocation := MongoLocation{
+		Latitude:  location.Latitude,
+		Longitude: location.Longitude,
+	}
+	update := bson.M{"$set": bson.M{"location": mongoLocation}}
+
+	_, err = r.collection.UpdateByID(ctx, objectID, update)
+	return err
 }
 
 func (r *SurvivorMongoRepository) UpdateSurvivorStatus(ctx context.Context, sid string, status domain.SurvivorStatus) error {
