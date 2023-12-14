@@ -47,7 +47,7 @@ func init() {
 func main() {
 	itemsRepository = items.NewMockRepository()
 	inventoryRepository = inventory.NewMockRepository()
-	survivorRepository = survivor.NewMockRepository()
+	survivorRepository = survivor.NewMongoRepository(mongoDb)
 
 	survivorService = survivor.NewSurvivorService(survivorRepository, inventoryRepository)
 
