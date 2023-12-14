@@ -20,6 +20,8 @@ func NewError(err error) *Error {
 		status = http.StatusBadRequest
 	case ErrCodeDuplicate:
 		status = http.StatusConflict
+	case ErrCodeParsing:
+		status = http.StatusBadRequest
 	}
 
 	return &Error{
@@ -41,4 +43,5 @@ const (
 	ErrCodeNotFound   string = "err_not_found"
 	ErrCodeValidation string = "err_validation"
 	ErrCodeDuplicate  string = "err_duplicate"
+	ErrCodeParsing    string = "err_parsing"
 )
