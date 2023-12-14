@@ -14,7 +14,7 @@ type InventoryMockRepository struct {
 func NewMockRepository() *InventoryMockRepository {
 	return &InventoryMockRepository{
 		inventories: map[string]domain.Inventory{
-			"survivor": {
+			"657b4ea4d54e4b7c3870f8c3": {
 				Items: map[string]int64{
 					"water":      4,
 					"food":       25,
@@ -38,7 +38,7 @@ func (r *InventoryMockRepository) GetAllInventories(ctx context.Context) ([]doma
 func (r *InventoryMockRepository) GetSurvivorInventory(ctx context.Context, sid string) (domain.Inventory, error) {
 	inventory, ok := r.inventories[sid]
 	if !ok {
-		return inventory, errors.New(domain.ErrCodeNotFound)
+		return domain.Inventory{}, nil
 	}
 
 	return inventory, nil
