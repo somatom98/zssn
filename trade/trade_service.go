@@ -39,7 +39,17 @@ func (s *TradeService) Trade(ctx context.Context, offerA domain.TradeOffer, offe
 		return errors.New(domain.ErrCodeValidation)
 	}
 
-	return nil
+	err = s.checkItemsAvailability(ctx, offerA)
+	if err != nil {
+		return err
+	}
+
+	err = s.checkItemsAvailability(ctx, offerB)
+	if err != nil {
+		return err
+	}
+
+	return s.inventoryRepository.TradeItems(ctx, offerA.SID, offerA.Items, offerB.SID, offerB.Items)
 }
 
 func (s *TradeService) evaluate(offer domain.TradeOffer, items []domain.Item) (int64, error) {
@@ -61,4 +71,20 @@ func (s *TradeService) evaluate(offer domain.TradeOffer, items []domain.Item) (i
 		value += quantity * points
 	}
 	return value, nil
+}
+
+func (s *TradeService) checkItemsAvailability(ctx context.Context, offer domain.TradeOffer) error {
+	inventory, err := s.inventoryRepository.GetSurvivorInventory(ctx, offer.SID)
+	if err != nil {
+		return err
+	}
+
+	for item, quantity := range offer.Items {
+		availableQuantity := inventory.Items[item]
+		if availableQuantity < quantity {
+			return errors.New(domain.ErrCodeValidation)
+		}
+	}
+
+	return nil
 }
