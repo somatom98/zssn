@@ -1,6 +1,8 @@
 package survivor
 
 import (
+	"errors"
+
 	"github.com/somatom98/zssn/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -15,6 +17,24 @@ func (r *MongoSurvivorStatusReport) toDomain() domain.SurvivorStatusReport {
 		SID:    r.SID.Hex(),
 		Status: r.Status,
 	}
+}
+
+func fromDomain(statusReports []domain.SurvivorStatusReport) ([]MongoSurvivorStatusReport, error) {
+	mongoStatusReports := []MongoSurvivorStatusReport{}
+	for _, report := range statusReports {
+		sid, err := primitive.ObjectIDFromHex(report.SID)
+		if err != nil {
+			return mongoStatusReports, errors.New(domain.ErrCodeParsing)
+		}
+
+		mongoReport := MongoSurvivorStatusReport{
+			SID:    sid,
+			Status: report.Status,
+		}
+
+		mongoStatusReports = append(mongoStatusReports, mongoReport)
+	}
+	return mongoStatusReports, nil
 }
 
 type MongoLocation struct {
