@@ -44,6 +44,23 @@ func TestTradeService_Trade(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "offeritem_notfound_error",
+			fields: fields{
+				itemsRepository: items.NewMockRepository(),
+			},
+			args: args{
+				ctx: context.Background(),
+				offerA: domain.TradeOffer{
+					SID: "survivor",
+					Items: map[string]int64{
+						"madeup": 4,
+					},
+				},
+				offerB: domain.TradeOffer{},
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
