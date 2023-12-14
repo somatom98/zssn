@@ -2,7 +2,9 @@ package survivor
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -26,6 +28,8 @@ func (c *SurvivorChiController) GetRouter() http.Handler {
 	router.Get("/{sid}", c.getSurvivorHandler)
 	router.Patch("/{sid}", c.reportSurvivorStatusHandler)
 	router.Get("/{sid}/location", c.updateSurvivorLocationHandler)
+	router.Put("/{sid}/items/{name}", c.addSurvivorItemHandler)
+	router.Delete("/{sid}/items/{name}", c.removeSurvivorItemHandler)
 	return router
 }
 
@@ -110,6 +114,58 @@ func (c *SurvivorChiController) reportSurvivorStatusHandler(w http.ResponseWrite
 	}
 
 	err = c.survivorService.ReportSurvivorStatus(ctx, sid, survivorStatusReport)
+	if err != nil {
+		rErr := domain.NewError(err)
+		render.Render(w, r, rErr)
+		return
+	}
+}
+
+func (c *SurvivorChiController) addSurvivorItemHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	sid := chi.URLParam(r, "sid")
+	item := chi.URLParam(r, "name")
+
+	var err error
+
+	quantity := 1
+	quantityStr := r.URL.Query().Get("quantity")
+	if quantityStr != "" {
+		quantity, err = strconv.Atoi(quantityStr)
+		if err != nil {
+			rErr := domain.NewError(errors.New(domain.ErrCodeParsing))
+			render.Render(w, r, rErr)
+			return
+		}
+	}
+
+	err = c.survivorService.AddItem(ctx, sid, item, int64(quantity))
+	if err != nil {
+		rErr := domain.NewError(err)
+		render.Render(w, r, rErr)
+		return
+	}
+}
+
+func (c *SurvivorChiController) removeSurvivorItemHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	sid := chi.URLParam(r, "sid")
+	item := chi.URLParam(r, "name")
+
+	var err error
+
+	quantity := 1
+	quantityStr := r.URL.Query().Get("quantity")
+	if quantityStr != "" {
+		quantity, err = strconv.Atoi(quantityStr)
+		if err != nil {
+			rErr := domain.NewError(errors.New(domain.ErrCodeParsing))
+			render.Render(w, r, rErr)
+			return
+		}
+	}
+
+	err = c.survivorService.RemoveItem(ctx, sid, item, int64(quantity))
 	if err != nil {
 		rErr := domain.NewError(err)
 		render.Render(w, r, rErr)
