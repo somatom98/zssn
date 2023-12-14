@@ -79,3 +79,34 @@ func (r *InventoryMockRepository) RemoveItem(ctx context.Context, sid string, it
 
 	return nil
 }
+
+func (r *InventoryMockRepository) TradeItems(ctx context.Context, sidA string, itemsA map[string]int64, sidB string, itemsB map[string]int64) error {
+	// in the real repository we would create a transaction with a rollback logic
+
+	err := r.swapItems(ctx, sidA, sidB, itemsA)
+	if err != nil {
+		return err
+	}
+
+	r.swapItems(ctx, sidB, sidA, itemsB)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *InventoryMockRepository) swapItems(ctx context.Context, giver string, receiver string, items map[string]int64) error {
+	for item, quantity := range items {
+		err := r.RemoveItem(ctx, giver, item, quantity)
+		if err != nil {
+			return err
+		}
+
+		err = r.AddItem(ctx, receiver, item, quantity)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
