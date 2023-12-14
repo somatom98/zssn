@@ -134,6 +134,29 @@ func TestTradeService_Trade(t *testing.T) {
 			},
 			err: errors.New(domain.ErrCodeValidation),
 		},
+		{
+			name: "success",
+			fields: fields{
+				itemsRepository:     items.NewMockRepository(),
+				inventoryRepository: inventory.NewMockRepository(),
+			},
+			args: args{
+				ctx: context.Background(),
+				offerA: domain.TradeOffer{
+					SID: "657b4ea4d54e4b7c3870f8c3",
+					Items: map[string]int64{
+						"water": 1,
+					},
+				},
+				offerB: domain.TradeOffer{
+					SID: "657b4ea4d54e4b7c3870f8c7",
+					Items: map[string]int64{
+						"ammunition": 4,
+					},
+				},
+			},
+			err: nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
